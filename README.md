@@ -1,0 +1,2 @@
+# CCDPlanetHelperBot
+CCDPlanet Helper Bot
