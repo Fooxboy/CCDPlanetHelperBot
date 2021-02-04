@@ -12,7 +12,7 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new string[0];
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            //throw new NotImplementedException();
+            sender.Text("Неизвестная команда", msg.ChatId);
         }
 
         public void Init(IBot bot, ILoggerService logger)
