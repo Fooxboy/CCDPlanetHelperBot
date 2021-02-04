@@ -6,6 +6,8 @@
 /modules.xml
 /contentModel.xml
 /.idea.CCDPlanetHelper.iml
+/.idea
+/.vs
 # Datasource local storage ignored files
 /../../../../../../:\CCDPlanetHelper\CCDPlanetHelper\.idea\.idea.CCDPlanetHelper\.idea/dataSources/
 /dataSources.local.xml
