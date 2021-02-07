@@ -15,8 +15,16 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"Добавить", "addads", "adsadd"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            if (msg.Text.Split(" ")[1].ToLower() != "объявление")
+            
+            if (msg.Text.Split(" ")[1].ToLower() != "объявление" && msg.Payload == null)
             {
+                return;
+            }
+
+
+            if (msg.ChatId != msg.MessageVK.FromId)
+            {
+                sender.Text("⛔ Эта команда недоступна в беседе", msg.ChatId);
                 return;
             }
 
@@ -58,14 +66,15 @@ namespace CCDPlanetHelper.Commands
                 kb.AddButton("Попробовать ещё раз", "AddAds", color: KeyboardButtonColor.Positive);
                 kb.SetOneTime();
                 sender.Text($"⛔ Объявление не может быть больше 300х символов. В Вашем объявлении {text.Length} символов.", chatId, kb.Build());
+                return;
             }
             
             using (var db = new BotData())
             {
-                var server = StaticContent.SelectUserServer.SingleOrDefault(u => u.Value == userId);
+                var server = StaticContent.SelectUserServer.SingleOrDefault(u => u.Key == userId);
                 db.Ads.Add(new Ad()
                 {
-                    AdId =  db.Ads.Count() + 1,
+                    AdId =  new Random().Next(0, 99999999),
                     Owner = userId,
                     DateCreate =  3,
                     Server =  server.Value,

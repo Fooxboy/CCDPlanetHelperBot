@@ -97,7 +97,7 @@ namespace CCDPlanetHelper.Commands
                 reminderSerivce.Start(logger, bot.SenderServices[0]);
             });
             
-            logger.Trace($"Запуск потока ReminderServiceThread#{thread.ManagedThreadId}");
+            logger.Info($"Запуск потока ReminderServiceThread#{thread.ManagedThreadId}");
             thread.Start();
         }
     }

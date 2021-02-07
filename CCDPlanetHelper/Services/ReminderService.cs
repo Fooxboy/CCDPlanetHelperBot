@@ -11,7 +11,7 @@ namespace CCDPlanetHelper.Services
     {
         public void Start(ILoggerService logger, IMessageSenderService sender)
         {
-            logger.Trace("Запуск сервиса ReminderService...");
+            logger.Info("Запуск сервиса ReminderService...");
 
             while (true)
             {
@@ -25,7 +25,7 @@ namespace CCDPlanetHelper.Services
                     var list = reminders.ToList();
                     if (list.Count != 0)
                     {
-                        logger.Trace($"Начата рассылка {list.Count} напоминаний...");
+                        logger.War($"Начата рассылка {list.Count} напоминаний...");
                         foreach (var reminder in list)
                         {
                             try
