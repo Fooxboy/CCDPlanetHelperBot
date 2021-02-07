@@ -29,7 +29,8 @@ namespace CCDPlanetHelper
             bot.SetCommands(new StartCommand(), new ReminderCommand(), new CalcCommand(), 
                 new CourseCommand(), new CourceSetCommand(), new AddAdminCommand(),
                 new RemoveAdminCommand(), new ListAdminsCommand(), new AdvertisementCommand(), 
-                new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand());
+                new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand(),
+                new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand());
 
             var logger = bot.GetLogger();
             logger.Trace("Инициализация статик контента...");
