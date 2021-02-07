@@ -1,21 +1,19 @@
 using System;
 using System.IO;
 using System.Linq;
-using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
 using Fooxboy.NucleusBot.Models;
 using Newtonsoft.Json;
 
 namespace CCDPlanetHelper.Commands.Admins
 {
-    public class AddAdminCommand:INucleusCommand
+    public class RemoveAdminCommand:INucleusCommand
     {
-        public string Command => "adminadd";
+        public string Command => "adminremove";
         public string[] Aliases => new string[0];
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            var bott = bot as Bot;
-            var logger = bott.GetLogger();
+            
             var file = File.ReadAllText("AdminsConfig.json");
             var admins = JsonConvert.DeserializeObject<Models.AdminsModels>(file);
 
@@ -67,17 +65,16 @@ namespace CCDPlanetHelper.Commands.Admins
                 }
             }
             
-            admins.Users.Add(userId);
+            admins.Users.Remove(userId);
 
             var text = JsonConvert.SerializeObject(admins);
             File.WriteAllText("AdminsConfig.json", text);
-            sender.Text("✔ Новый администратор добавлен", msg.ChatId);
-            logger.War($"ДОБАВЛЕН НОВЫЙ АДМИНИСТРАТОР С ID: {userId}");
+            sender.Text("✔ Администратор был удален", msg.ChatId);
         }
 
         public void Init(IBot bot, ILoggerService logger)
         {
-
+           
         }
     }
 }
