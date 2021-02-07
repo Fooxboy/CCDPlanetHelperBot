@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using CCDPlanetHelper.Commands;
 using CCDPlanetHelper.Commands.Admins;
 using Fooxboy.NucleusBot;
@@ -14,6 +15,8 @@ namespace CCDPlanetHelper
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Запуск бота...");
+            
             var botSettings = new BotSettings();
             botSettings.GroupId = 202349916;
             botSettings.Messenger = MessengerPlatform.Vkontakte;
@@ -24,7 +27,14 @@ namespace CCDPlanetHelper
             var bot = new Bot(botSettings, command);
             
             bot.SetCommands(new StartCommand(), new ReminderCommand(), new CalcCommand(), 
-                new CourseCommand(), new CourceSetCommand(), new AddAdminCommand(), new RemoveAdminCommand(), new ListAdminsCommand());
+                new CourseCommand(), new CourceSetCommand(), new AddAdminCommand(),
+                new RemoveAdminCommand(), new ListAdminsCommand(), new AdvertisementCommand(), 
+                new ExcecuteCommand(), new AdvertisementAddCommand());
+
+            var logger = bot.GetLogger();
+            logger.Trace("Инициализация статик контента...");
+            StaticContent.UsersCommand = new Dictionary<long, string>();
+            StaticContent.SelectUserServer = new Dictionary<long, int>();
             bot.Start();
             Console.ReadLine();
         }

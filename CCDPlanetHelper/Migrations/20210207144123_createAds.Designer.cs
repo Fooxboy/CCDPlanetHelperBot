@@ -2,14 +2,16 @@
 using CCDPlanetHelper.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CCDPlanetHelper.Migrations
 {
     [DbContext(typeof(BotData))]
-    partial class BotDataModelSnapshot : ModelSnapshot
+    [Migration("20210207144123_createAds")]
+    partial class createAds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
