@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CCDPlanetHelper.Commands;
+using CCDPlanetHelper.Commands.Admins;
 using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Enums;
 using Fooxboy.NucleusBot.Interfaces;
@@ -22,7 +23,8 @@ namespace CCDPlanetHelper
 
             var bot = new Bot(botSettings, command);
             
-            bot.SetCommands(new StartCommand(), new ReminderCommand(), new CalcCommand(), new CourseCommand());
+            bot.SetCommands(new StartCommand(), new ReminderCommand(), new CalcCommand(), 
+                new CourseCommand(), new CourceSetCommand());
             bot.Start();
             Console.ReadLine();
         }
