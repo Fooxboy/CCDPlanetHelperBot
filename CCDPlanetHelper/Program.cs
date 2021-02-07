@@ -24,7 +24,7 @@ namespace CCDPlanetHelper
             var bot = new Bot(botSettings, command);
             
             bot.SetCommands(new StartCommand(), new ReminderCommand(), new CalcCommand(), 
-                new CourseCommand(), new CourceSetCommand());
+                new CourseCommand(), new CourceSetCommand(), new AddAdminCommand());
             bot.Start();
             Console.ReadLine();
         }

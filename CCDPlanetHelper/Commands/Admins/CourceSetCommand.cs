@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
 using Fooxboy.NucleusBot.Models;
 using Newtonsoft.Json;
@@ -13,10 +14,12 @@ namespace CCDPlanetHelper.Commands.Admins
         public string[] Aliases => new string[0];
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
+            var bott = bot as Bot;
+            var logger = bott.GetLogger();
             var file = File.ReadAllText("AdminsConfig.json");
             var admins = JsonConvert.DeserializeObject<Models.AdminsModels>(file);
 
-            if (admins.Users.Any(u => u == msg.MessageVK.UserId.Value))
+            if (!(admins.Users.Any(u => u == msg.MessageVK.FromId)))
             {
                 sender.Text("🛑 У вас нет прав администратора для вызова этой команды.", msg.ChatId);
                 return;
@@ -29,7 +32,7 @@ namespace CCDPlanetHelper.Commands.Admins
                 var dollar = Int32.Parse(words[1]);
                 var euro = int.Parse(words[2]);
 
-                var fileCource = File.ReadAllText("CourceConfig.json");
+                var fileCource = File.ReadAllText("CourseConfig.json");
                 var cource = JsonConvert.DeserializeObject<Models.CourseModel>(fileCource);
                 cource.Dollar = dollar;
                 cource.Euro = euro;
@@ -40,6 +43,7 @@ namespace CCDPlanetHelper.Commands.Admins
             }
             catch (Exception e)
             {
+             logger.Error(e.Message);   
                 sender.Text(
                     "⛔ Произошла ошибка. Возможно, вы ввели данные не в том формате. Пример: \n courceset 10 20 \n Где 10 - доллар, 20 - евро.",
                     msg.ChatId);
