@@ -31,12 +31,14 @@ namespace CCDPlanetHelper
                 new RemoveAdminCommand(), new ListAdminsCommand(), new AdvertisementCommand(), 
                 new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand(),
                 new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand(),
-                new ReportCommand(), new ReportReply(), new ReportListCommand());
+                new ReportCommand(), new ReportReply(), new ReportListCommand(), 
+                new AddCarCommand(), new CarListCommand());
 
             var logger = bot.GetLogger();
             logger.Trace("Инициализация статик контента...");
             StaticContent.UsersCommand = new Dictionary<long, string>();
             StaticContent.SelectUserServer = new Dictionary<long, int>();
+            StaticContent.AddCarInfo = new Dictionary<long, long>();
             bot.Start();
             Console.ReadLine();
         }

@@ -6,5 +6,6 @@ namespace CCDPlanetHelper
     {
         public static Dictionary<long, string> UsersCommand { get; set; }
         public static Dictionary<long, int> SelectUserServer { get; set; }
+        public static Dictionary<long, long> AddCarInfo { get; set; }
     }
 }
