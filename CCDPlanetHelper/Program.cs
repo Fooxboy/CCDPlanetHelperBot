@@ -32,7 +32,7 @@ namespace CCDPlanetHelper
                 new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand(),
                 new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand(),
                 new ReportCommand(), new ReportReply(), new ReportListCommand(), 
-                new AddCarCommand(), new CarListCommand());
+                new AddCarCommand(), new CarListCommand(), new RemoveCarCommand());
 
             var logger = bot.GetLogger();
             logger.Trace("Инициализация статик контента...");
