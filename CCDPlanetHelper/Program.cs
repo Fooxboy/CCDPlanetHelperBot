@@ -30,7 +30,8 @@ namespace CCDPlanetHelper
                 new CourseCommand(), new CourceSetCommand(), new AddAdminCommand(),
                 new RemoveAdminCommand(), new ListAdminsCommand(), new AdvertisementCommand(), 
                 new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand(),
-                new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand());
+                new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand(),
+                new ReportCommand(), new ReportReply(), new ReportListCommand());
 
             var logger = bot.GetLogger();
             logger.Trace("Инициализация статик контента...");
