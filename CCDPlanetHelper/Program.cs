@@ -32,7 +32,8 @@ namespace CCDPlanetHelper
                 new ExcecuteCommand(), new AdvertisementAddCommand(), new RemoveAdsCommand(),
                 new MailingCommand(), new UnsubscribeCommand(), new SubscribeCommand(),
                 new ReportCommand(), new ReportReply(), new ReportListCommand(), 
-                new AddCarCommand(), new CarListCommand(), new RemoveCarCommand(), new HelpCommand());
+                new AddCarCommand(), new CarListCommand(), new RemoveCarCommand(),
+                new HelpCommand(), new ChangelogCommand(), new ChangelogEditCommand());
             
 
             var logger = bot.GetLogger();
