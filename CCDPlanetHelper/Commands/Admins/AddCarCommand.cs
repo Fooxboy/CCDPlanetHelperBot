@@ -37,9 +37,15 @@ namespace CCDPlanetHelper.Commands.Admins
                 model += words[i] + " ";
             }
 
+            if (model == string.Empty)
+            {
+                sender.Text("Вы не указали модель", msg.ChatId);
+                return;
+            }
+
             using (var db = new BotData())
             {
-                var id = db.Cars.Count() + 1;
+                var id = new Random().Next(1, 999999999);
                 db.Cars.Add(new CarInfo()
                 {
                     CarId = id,

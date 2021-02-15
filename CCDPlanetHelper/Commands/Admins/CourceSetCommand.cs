@@ -29,11 +29,10 @@ namespace CCDPlanetHelper.Commands.Admins
 
             try
             {
-                var dollar = Int32.Parse(words[1]);
-                var euro = int.Parse(words[2]);
-
-                var fileCource = File.ReadAllText("CourseConfig.json");
-                var cource = JsonConvert.DeserializeObject<Models.CourseModel>(fileCource);
+                var dollar = float.Parse(words[1]);
+                var euro = float.Parse(words[2]);
+                
+                var cource = new Models.CourseModel();
                 cource.Dollar = dollar;
                 cource.Euro = euro;
                 var text = JsonConvert.SerializeObject(cource);

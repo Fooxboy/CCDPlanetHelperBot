@@ -5,8 +5,8 @@ namespace CCDPlanetHelper.Models
     public class CourseModel
     {
         [JsonProperty("dollar")]
-        public int Dollar { get; set; }
+        public float Dollar { get; set; }
         [JsonProperty("euro")]
-        public int Euro { get; set; }
+        public float Euro { get; set; }
     }
 }

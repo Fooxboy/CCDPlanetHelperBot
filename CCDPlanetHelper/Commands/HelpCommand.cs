@@ -59,7 +59,8 @@ namespace CCDPlanetHelper.Commands
                                 "\n ▶ Список неотвеченных репортов: репорты" +
                                 "\n ▶ Ответить на репорт: reportrp <ID репорта> <сообщение>" +
                                 "\n ▶ Установить бинды: bindsedit <текст>" +
-                                "\n ▶ Установить changelog: changelogedit <текст>";
+                                "\n ▶ Установить changelog: changelogedit <текст>" +
+                                "\n ▶ Список авто для отладки: carlist";
 
                 var text = helpText + adminText;
                 sender.Text(text, msg.ChatId);

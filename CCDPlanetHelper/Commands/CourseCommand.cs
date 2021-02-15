@@ -12,7 +12,7 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new string[] { "Курс"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            var courseText = File.ReadAllText("CourseConfig.json");
+            var courseText = File.ReadAllText("CourceConfig.json");
             var course = JsonConvert.DeserializeObject<CourseModel>(courseText);
 
             var text = $"💲 Курс валют: \n 💵 Доллар = {course.Dollar} \n 💶 Евро = {course.Euro}";
