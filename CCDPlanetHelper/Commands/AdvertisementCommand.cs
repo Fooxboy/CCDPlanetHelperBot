@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using CCDPlanetHelper.Database;
 using CCDPlanetHelper.Services;
+using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
 using Newtonsoft.Json;
 using VkNet;
@@ -56,11 +57,31 @@ namespace CCDPlanetHelper.Commands
                 {
                     stringText += "Объявлений нет.";
                 }
-                
-                
-                
 
-                sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId);
+
+
+
+                if (msg.ChatId != msg.MessageVK.FromId)
+                {
+                    sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId);
+
+                }
+                else
+                {
+                    var kb = new KeyboardBuilder(bot);
+                    kb.AddButton("1", "adsFilter", new List<string>() {"1"});
+                    kb.AddButton("2", "adsFilter", new List<string>() {"2"});
+                    kb.AddButton("3", "adsFilter", new List<string>() {"3"});
+                    kb.AddLine();
+                    kb.AddButton("4", "adsFilter", new List<string>() {"4"});
+                    kb.AddButton("5", "adsFilter", new List<string>() {"5"});
+                    kb.AddButton("6", "adsFilter", new List<string>() {"6"});
+                    kb.AddLine();
+                    kb.AddButton("🔙 В меню объявлений", "adsmenu");
+                    sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId, kb.Build());
+
+                }
+
             }
         }
 

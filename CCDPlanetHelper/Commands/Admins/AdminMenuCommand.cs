@@ -34,6 +34,8 @@ namespace CCDPlanetHelper.Commands.Admins
             kb.AddLine();
             kb.AddButton("🔙 В меню", "menu");
             kb.SetOneTime();
+            
+            sender.Text("🤴 Админ меню: ", msg.ChatId, kb.Build());
         }
 
         public void Init(IBot bot, ILoggerService logger)
