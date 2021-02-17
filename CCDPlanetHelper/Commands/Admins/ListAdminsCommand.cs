@@ -41,7 +41,20 @@ namespace CCDPlanetHelper.Commands.Admins
                 adminsText += $"[id{admin.Id}|{admin.FirstName} {admin.LastName}], ";
             }
 
-            sender.Text($"✔ Администраторы: {adminsText}", msg.ChatId);
+
+            if (msg.ChatId != msg.MessageVK.FromId)
+            {
+                sender.Text($"✔ Администраторы: {adminsText}", msg.ChatId);
+            }
+            else
+            {
+                var kb = new KeyboardBuilder(bot);
+                kb.AddButton("🔙 В админ меню", "adminmenu");
+                sender.Text($"✔ Администраторы: {adminsText}", msg.ChatId, kb.Build());
+
+            }
+            
+            
         }
 
         public void Init(IBot bot, ILoggerService logger)

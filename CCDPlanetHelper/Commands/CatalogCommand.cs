@@ -9,7 +9,7 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"каталог"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            
+            sender.Text("Каталог в данный момент не работает.", msg.ChatId);
         }
 
         public void Init(IBot bot, ILoggerService logger)

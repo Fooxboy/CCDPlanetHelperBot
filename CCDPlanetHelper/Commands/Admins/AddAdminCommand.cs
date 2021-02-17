@@ -3,8 +3,10 @@ using System.IO;
 using System.Linq;
 using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
-using Fooxboy.NucleusBot.Models;
 using Newtonsoft.Json;
+using VkNet;
+using VkNet.Model;
+using Message = Fooxboy.NucleusBot.Models.Message;
 
 namespace CCDPlanetHelper.Commands.Admins
 {
@@ -50,9 +52,31 @@ namespace CCDPlanetHelper.Commands.Admins
                 userId = long.Parse(id);
             }else if (adminText[0] == 'h')
             {
-                sender.Text("⛔ Пока что ссылки на пользователей не поддерживаются, укажите Id или тегните.",
-                    msg.ChatId);
-                return;
+                var wordsAdmin = adminText.Split("/");
+
+                var url = wordsAdmin[^1];
+
+                var vkNet = new VkApi();
+                vkNet.Authorize(new ApiAuthParams()
+                {
+                    AccessToken = "e7980081cccad8d0df1ce342355da76e6e0d8de37509d76fb08ff1f065823dc19e5f4ed7f4578314cc772"
+                });
+
+                userId = vkNet.Utils.ResolveScreenName(url).Id.Value;
+                
+            }else if (adminText[0] == 'v')
+            {
+                var wordsAdmin = adminText.Split("/");
+
+                var url = wordsAdmin[^1];
+
+                var vkNet = new VkApi();
+                vkNet.Authorize(new ApiAuthParams()
+                {
+                    AccessToken = "e7980081cccad8d0df1ce342355da76e6e0d8de37509d76fb08ff1f065823dc19e5f4ed7f4578314cc772"
+                });
+
+                userId = vkNet.Utils.ResolveScreenName(url).Id.Value;
             }
             else
             {

@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using CCDPlanetHelper.Database;
+using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
 using Newtonsoft.Json;
 using VkNet.Model;
@@ -41,8 +42,17 @@ namespace CCDPlanetHelper.Commands.Admins
                     reports = "Репортов нет.";
                 }
                 
-                
-                sender.Text($"Неотвеченные репорты: \n {reports}", msg.ChatId);
+                if (msg.ChatId != msg.MessageVK.FromId)
+                {
+                    sender.Text($"Неотвеченные репорты: \n {reports}", msg.ChatId);
+
+                }
+                else
+                {
+                    var kb = new KeyboardBuilder(bot);
+                    kb.AddButton("🔙 В админ меню", "adminmenu");
+                    sender.Text($"Неотвеченные репорты: \n {reports}", msg.ChatId, kb.Build());
+                }
             }
             
         }
