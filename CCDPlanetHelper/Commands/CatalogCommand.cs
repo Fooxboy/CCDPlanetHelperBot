@@ -23,7 +23,7 @@ namespace CCDPlanetHelper.Commands
             kb.AddButton("6", "showroom", new List<string>() {"6", "0"});
             kb.AddButton("7", "showroom", new List<string>() {"7", "0"});
             kb.AddLine();
-            kb.AddButton("🔙 Назад", "searchmenu");
+            kb.AddButton("🔙 Назад ", "searchmenu");
             kb.SetOneTime();
 
             sender.Text("Выберите необходимый автосалон.", msg.ChatId, kb.Build());

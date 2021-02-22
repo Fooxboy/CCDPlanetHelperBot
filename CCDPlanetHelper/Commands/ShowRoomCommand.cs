@@ -36,8 +36,8 @@ namespace CCDPlanetHelper.Commands
                         try
                         {
                             var car = autos[i];
-                            kb.AddButton($"{i}", "carinfo", new List<string>() {$"{car.CarId}\n"});
-                            text += $"🚘 [{i}] - {car.Model}";
+                            kb.AddButton($"{i}", "carinfo", new List<string>() {$"{car.CarId}"});
+                            text += $"🚘 [{i}] - {car.Model}\n";
                             counter++;
                             if (counter == 3)
                             {
@@ -61,7 +61,7 @@ namespace CCDPlanetHelper.Commands
             }
 
             kb.AddLine();
-            kb.AddButton("🔙 К автосолонам", "catalog");
+            kb.AddButton("🔙 К автосалонам", "catalog");
             
             sender.Text(text, msg.ChatId, kb.Build());
             

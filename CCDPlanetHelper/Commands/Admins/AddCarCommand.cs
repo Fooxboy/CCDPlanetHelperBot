@@ -58,7 +58,7 @@ namespace CCDPlanetHelper.Commands.Admins
                 return;
             }
 
-            var link = photo.BigPhotoSrc;
+            var link = photo.Sizes[^1].Url;
             if (!Directory.Exists("Cars Photos"))
             {
                 Directory.CreateDirectory("Cars Photos");

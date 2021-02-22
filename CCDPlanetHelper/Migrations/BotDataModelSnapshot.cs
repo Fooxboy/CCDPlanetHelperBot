@@ -62,6 +62,9 @@ namespace CCDPlanetHelper.Migrations
                     b.Property<long>("PriceDonate")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Showroom")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TuningPacks")
                         .HasColumnType("TEXT");
 
