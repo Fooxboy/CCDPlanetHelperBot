@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
 using Fooxboy.NucleusBot.Models;
 
@@ -9,7 +11,22 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"каталог"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
-            sender.Text("Каталог в данный момент не работает.", msg.ChatId);
+
+            var kb = new KeyboardBuilder(bot);
+            kb.AddButton("1", "showroom", new List<string>() {"1", "0"});
+
+            kb.AddButton("2", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("3", "showroom", new List<string>() {"1", "0"});
+            kb.AddLine();
+            kb.AddButton("4", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("5", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("6", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("7", "showroom", new List<string>() {"1", "0"});
+            kb.AddLine();
+            kb.AddButton("🔙 Назад", "searchmenu");
+            kb.SetOneTime();
+
+            sender.Text("Выберите необходимый автосалон.", msg.ChatId, kb.Build());
         }
 
         public void Init(IBot bot, ILoggerService logger)

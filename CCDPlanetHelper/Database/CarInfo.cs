@@ -12,6 +12,7 @@ namespace CCDPlanetHelper.Database
         public long MaxSpeed { get; set; }
         public string TuningPacks { get; set; }
         public string Image { get; set; }
+        public int Showroom { get; set; }
         public bool IsPublic { get; set; }
     }
 }
