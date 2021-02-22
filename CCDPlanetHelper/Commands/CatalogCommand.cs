@@ -15,13 +15,13 @@ namespace CCDPlanetHelper.Commands
             var kb = new KeyboardBuilder(bot);
             kb.AddButton("1", "showroom", new List<string>() {"1", "0"});
 
-            kb.AddButton("2", "showroom", new List<string>() {"1", "0"});
-            kb.AddButton("3", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("2", "showroom", new List<string>() {"2", "0"});
+            kb.AddButton("3", "showroom", new List<string>() {"3", "0"});
             kb.AddLine();
-            kb.AddButton("4", "showroom", new List<string>() {"1", "0"});
-            kb.AddButton("5", "showroom", new List<string>() {"1", "0"});
-            kb.AddButton("6", "showroom", new List<string>() {"1", "0"});
-            kb.AddButton("7", "showroom", new List<string>() {"1", "0"});
+            kb.AddButton("4", "showroom", new List<string>() {"4", "0"});
+            kb.AddButton("5", "showroom", new List<string>() {"5", "0"});
+            kb.AddButton("6", "showroom", new List<string>() {"6", "0"});
+            kb.AddButton("7", "showroom", new List<string>() {"7", "0"});
             kb.AddLine();
             kb.AddButton("🔙 Назад", "searchmenu");
             kb.SetOneTime();

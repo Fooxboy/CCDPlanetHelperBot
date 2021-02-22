@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using CCDPlanetHelper.Database;
 using Fooxboy.NucleusBot.Interfaces;
 using Fooxboy.NucleusBot.Models;
 using Newtonsoft.Json;
+using VkNet.Model.Attachments;
 
 namespace CCDPlanetHelper.Commands.Admins
 {
@@ -39,17 +41,40 @@ namespace CCDPlanetHelper.Commands.Admins
 
             if (model == string.Empty)
             {
-                sender.Text("Вы не указали модель", msg.ChatId);
+                sender.Text("⛔ Вы не указали модель", msg.ChatId);
                 return;
             }
 
+            if (msg.MessageVK.Attachments.Count() == 0)
+            {
+                sender.Text("⛔ Вы не прикрепили фотографию авто", msg.ChatId);
+                return;
+            }
+
+            var photo = msg.MessageVK.Attachments[0].Instance as Photo;
+            if (photo is null)
+            {
+                sender.Text("⛔ Вы не прикрепили фотографию авто", msg.ChatId);
+                return;
+            }
+
+            var link = photo.BigPhotoSrc;
+            if (!Directory.Exists("Cars Photos"))
+            {
+                Directory.CreateDirectory("Cars Photos");
+            }
+
+            var client = new WebClient();
+            var id = new Random().Next(1, 999999999);
+            client.DownloadFile(link, $"Cars Photos\\{id}.jpg");
+
             using (var db = new BotData())
             {
-                var id = new Random().Next(1, 999999999);
+                
                 db.Cars.Add(new CarInfo()
                 {
                     CarId = id,
-                    Image = "photo",
+                    Image = $"Cars Photos\\{id}.jpg",
                     IsPublic = false,
                     MaxSpeed = 0,
                     Model = model,
@@ -63,8 +88,8 @@ namespace CCDPlanetHelper.Commands.Admins
             }
             
             StaticContent.UsersCommand.Add(msg.ChatId, "addcarinfo");
-            sender.Text("✔ Машина зарезерирована. Теперь укажите цену, цену за донат валюту, и максимальную скорость. В таком формате: \n" +
-                        "<Цена с салона> <Цена за донат валюту> <Максимальная скорость> \n Например: 100 5 200", msg.ChatId);
+            sender.Text("✔ Машина зарезерирована. Теперь укажите цену, цену за донат валюту, максимальную скорость и номер автосалона. В таком формате: \n" +
+                        "<Цена с салона> <Цена за донат валюту> <Максимальная скорость> <автосалон> \n Например: 100 5 200 1", msg.ChatId);
             
         }
 
@@ -75,6 +100,7 @@ namespace CCDPlanetHelper.Commands.Admins
             long price = long.Parse(words[0]);
             long donatePrice = long.Parse(words[1]);
             long speed = long.Parse(words[2]);
+            int showroom = int.Parse(words[3]);
 
             var carId = StaticContent.AddCarInfo.SingleOrDefault(i => i.Key == owner);
             
@@ -85,6 +111,7 @@ namespace CCDPlanetHelper.Commands.Admins
                 car.PriceDonate = donatePrice; 
                 car.MaxSpeed = speed;
                 car.IsPublic = true;
+                car.Showroom = showroom;
 
                 db.SaveChanges();
             }
