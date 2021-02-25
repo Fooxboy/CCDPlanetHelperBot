@@ -14,5 +14,6 @@ namespace CCDPlanetHelper.Database
         public string Image { get; set; }
         public int Showroom { get; set; }
         public bool IsPublic { get; set; }
+        public int Currency { get; set; }
     }
 }

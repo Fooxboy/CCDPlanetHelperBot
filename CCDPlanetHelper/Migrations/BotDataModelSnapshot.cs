@@ -44,6 +44,9 @@ namespace CCDPlanetHelper.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Currency")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
 
@@ -123,6 +126,23 @@ namespace CCDPlanetHelper.Migrations
                     b.HasKey("ReportId");
 
                     b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("CCDPlanetHelper.Database.TuningPack", b =>
+                {
+                    b.Property<long>("PackId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PackId");
+
+                    b.ToTable("TuningPacks");
                 });
 #pragma warning restore 612, 618
         }

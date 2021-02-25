@@ -25,7 +25,11 @@ namespace CCDPlanetHelper.Commands.Admins
             var array = msg.Text.Split(" ");
 
             var price = array[1];
-            var name = array[2];
+
+
+            var name = string.Empty;
+
+            for (int i = 2; i < array.Length; i++) name += array[i] + " ";
 
             long packId = 0;
             using (var db = new BotData())

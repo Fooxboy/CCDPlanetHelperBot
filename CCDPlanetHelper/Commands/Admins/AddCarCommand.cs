@@ -89,7 +89,7 @@ namespace CCDPlanetHelper.Commands.Admins
             
             StaticContent.UsersCommand.Add(msg.ChatId, "addcarinfo");
             sender.Text("✔ Машина зарезерирована. Теперь укажите цену, цену за донат валюту, максимальную скорость и номер автосалона. В таком формате: \n" +
-                        "<Цена с салона> <Цена за донат валюту> <Максимальная скорость> <автосалон> \n Например: 100 5 200 1", msg.ChatId);
+                        "<Цена с салона>-<Валюта> <Цена за донат валюту> <Максимальная скорость> <автосалон> \n Например: 100-р 5 200 1", msg.ChatId);
             
         }
 
@@ -97,7 +97,24 @@ namespace CCDPlanetHelper.Commands.Admins
         public static void AddCarInfo(IMessageSenderService service, long owner, string msg)
         {
             var words = msg.Split(" ");
-            long price = long.Parse(words[0]);
+            string priceText = words[0];
+            long price = long.Parse(priceText.Split("-")[0]);
+            int currency = 0;
+            string ctx = (priceText.Split("-")[1]).ToLower();
+            
+            //обработка валюты.
+
+            if (ctx == "р")
+            {
+                currency = 1;
+            }else if (ctx == "д")
+            {
+                currency = 2;
+            }else if (ctx == "е")
+            {
+                currency = 3;
+            }
+            
             long donatePrice = long.Parse(words[1]);
             long speed = long.Parse(words[2]);
             int showroom = int.Parse(words[3]);
@@ -108,6 +125,7 @@ namespace CCDPlanetHelper.Commands.Admins
             {
                 var car = db.Cars.SingleOrDefault(c => c.CarId == carId.Value);
                 car.Price = price;
+                car.Currency = currency;
                 car.PriceDonate = donatePrice; 
                 car.MaxSpeed = speed;
                 car.IsPublic = true;
