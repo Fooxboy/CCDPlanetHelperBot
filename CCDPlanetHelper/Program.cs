@@ -37,7 +37,8 @@ namespace CCDPlanetHelper
                 new BindsCommand(), new BindsSetCommand() , new MenuCommand(),
                 new SettingsCommand(), new AdvertisementMenu(), new AdminMenuCommand(), 
                 new SearchMenuCommand(), new CatalogCommand(), new AdsFilterCommand(),
-                new ShowRoomCommand(), new TestPhoto(), new CarInfoCommand());
+                new ShowRoomCommand(), new TestPhoto(), new CarInfoCommand(),
+                new AddTuningCommand(), new TuningSetCommand());
             
 
             var logger = bot.GetLogger();

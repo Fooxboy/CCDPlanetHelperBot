@@ -9,6 +9,7 @@ namespace CCDPlanetHelper.Database
         public DbSet<ReminderInfo> Reminders { get; set; }
         public DbSet<Ad> Ads { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<TuningPack> TuningPacks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data source=DataBot.db");

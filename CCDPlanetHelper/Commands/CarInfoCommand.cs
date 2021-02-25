@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using CCDPlanetHelper.Database;
 using Fooxboy.NucleusBot;
@@ -26,10 +27,10 @@ namespace CCDPlanetHelper.Commands
                 var price3 = Convert.ToInt64(Decimal.Multiply(price1, decimal.Parse("0,7")));
                 
                 var text = $"🚘 Модель: {car.Model}" +
-                           $"\n 💵 Цена с салона: {car.Price}" +
-                           $"\n 💰 Цена с б/у: {price2}" +
-                           $"\n 💳 Слив с б/у: {price3}" +
-                           $"\n 💎 Цена за донат-валюту: {car.PriceDonate}" +
+                           $"\n 💵 Цена с салона: {car.Price.ToString("N1")}" +
+                           $"\n 💰 Цена с б/у: {price2.ToString("N1")}" +
+                           $"\n 💳 Слив с б/у: {price3.ToString("N1")}" +
+                           $"\n 💎 Цена за донат-валюту: {car.PriceDonate.ToString("N1")}" +
                            $"\n 🚗 Автосалон: {car.Showroom}" +
                            $"\n ⚙ Максимальная скорость: {car.MaxSpeed}" +
                            $"\n " +
