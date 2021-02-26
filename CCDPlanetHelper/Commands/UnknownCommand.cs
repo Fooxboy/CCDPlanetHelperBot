@@ -23,6 +23,9 @@ namespace CCDPlanetHelper.Commands
                 }else if (command.Value == "addcarinfo")
                 {
                     AddCarCommand.AddCarInfo(sender, msg.ChatId, msg.Text);
+                }else if (command.Value == "target")
+                {
+                    TargetEditCommand.Edited(msg, sender, bot);
                 }
 
                 StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);

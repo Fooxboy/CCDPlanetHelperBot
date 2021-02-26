@@ -17,7 +17,7 @@ namespace CCDPlanetHelper.Commands
 
             using (var db = new BotData())
             {
-                var targetInfo = db.Targets.SingleOrDefault(t => t.UserId == msg.ChatId);
+                var targetInfo = db.Targets.SingleOrDefault(t => t.UserId == msg.MessageVK.FromId);
                 var kb = new KeyboardBuilder(bot);
                 kb.AddButton("🔙 Назад к авто", "carinfo", new List<string>() {carTarget.ToString()});
                 kb.AddLine();
