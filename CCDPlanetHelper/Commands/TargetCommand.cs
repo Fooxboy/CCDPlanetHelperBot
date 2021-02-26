@@ -70,8 +70,8 @@ namespace CCDPlanetHelper.Commands
                 kb.SetOneTime();
 
                 var text = $"✈ Ваша цель: " +
-                           $"\n 🚗 {car.Model} - " +
-                           $"\n 💎 Собрано {target.Count.ToString("N1")}  из {priceRub.ToString("N1")} ₽";
+                           $"\n 🚗 {car.Model}" +
+                           $"\n 💎 Собрано {target.Count.ToString("N1")} из {priceRub.ToString("N1")} ₽ ({target.Count/(priceRub/100)}%)";
                 
                 if(isChat) sender.Text(text, msg.ChatId);
                 else sender.Text(text, msg.ChatId, kb.Build());

@@ -128,6 +128,23 @@ namespace CCDPlanetHelper.Migrations
                     b.ToTable("Reports");
                 });
 
+            modelBuilder.Entity("CCDPlanetHelper.Database.Target", b =>
+                {
+                    b.Property<long>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Targets");
+                });
+
             modelBuilder.Entity("CCDPlanetHelper.Database.TuningPack", b =>
                 {
                     b.Property<long>("PackId")
