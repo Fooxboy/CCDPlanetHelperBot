@@ -45,6 +45,11 @@ namespace CCDPlanetHelper.Commands.Admins
                 return;
             }
 
+            if (model[^1] == ' ')
+            {
+                model = model.Remove(model.Length - 1);
+            } 
+
             if (msg.MessageVK.Attachments.Count() == 0)
             {
                 sender.Text("⛔ Вы не прикрепили фотографию авто", msg.ChatId);

@@ -41,17 +41,21 @@ namespace CCDPlanetHelper.Commands.Admins
             int sended = 0;
             foreach (var userId in users)
             {
-                Thread.Sleep(1000);
-                try
+                if (userId.IsActive)
                 {
-                    sender.Text($"📤 Рассылка:\n {text} \n ❓Чтобы отписаться от рассылки, напишите \"отписаться\"", userId.UserId);
-                    sended++;
+                    Thread.Sleep(1000);
+                    try
+                    {
+                        sender.Text($"📤 Рассылка:\n {text} \n ❓Чтобы отписаться от рассылки, напишите \"отписаться\"", userId.UserId);
+                        sended++;
+                    }
+                    catch (Exception e)
+                    {
+                        var bott = bot as Bot;
+                        bott.GetLogger().Error("Ошибка при отправке сообщения пользователю..");
+                    } 
                 }
-                catch (Exception e)
-                {
-                    var bott = bot as Bot;
-                    bott.GetLogger().Error("Ошибка при отправке сообщения пользователю..");
-                } 
+                
             }
             
             sender.Text($"✔ Рассылка завершена. Отправлено {sended} пользователям из {users.Count()}", msg.ChatId);

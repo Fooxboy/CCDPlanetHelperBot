@@ -44,9 +44,9 @@ namespace CCDPlanetHelper.Commands
 
             using (var db = new BotData())
             {
-                var car = db.Cars.SingleOrDefault(c => c.Model.ToLower() == search.ToLower());
+                var cars = db.Cars.Where(c => c.Model.ToLower() == search.ToLower());
 
-                if (car is null)
+                if (!cars.Any())
                 {
                     StaticContent.UsersCommand.Add(msg.ChatId, "search");
                     var kb = new KeyboardBuilder(bot);
@@ -54,6 +54,8 @@ namespace CCDPlanetHelper.Commands
                     sender.Text("🔍 Автомобиль не найден. Попробуйте ещё раз", msg.ChatId, kb.Build());
                     return;
                 }
+
+                var car = cars.ToList()[0];
 
                 var kb1 = new KeyboardBuilder(bot);
                 kb1.AddButton("🚗 Открыть информацию", "carinfo", new List<string>() {car.CarId.ToString()});
