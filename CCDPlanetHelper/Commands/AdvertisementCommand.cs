@@ -19,6 +19,35 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"Объявления", "объявление"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
+            
+            if (msg.Payload is null)
+            {
+                var msgWords = msg.Text.Split(" ");
+
+                try
+                {
+                    var serverStr = msgWords[1];
+                    var page = long.Parse(msgWords[2]);
+
+                    if (serverStr == "id")
+                    {
+                        msg.Text = $"id-{page}";
+                        new ShowAdCommand().Execute(msg, sender, bot);
+                        return;
+                    }
+
+                    msg.Text = $"com-{page}-{serverStr}";
+                    new AdsFilterCommand().Execute(msg, sender, bot);
+                    return;
+                }
+                catch
+                {
+                    sender.Text("⛔ Вы указали неверное данные. Например: объявления <номер сервера> <номер страницы> или объявление id <Id объявления>", msg.ChatId);
+                }
+                
+                return;
+             }
+            
             var file = File.ReadAllText("AdminsConfig.json");
             var admins = JsonConvert.DeserializeObject<Models.AdminsModels>(file);
 
@@ -37,29 +66,35 @@ namespace CCDPlanetHelper.Commands
                 string s = string.Empty;
                 var stringText = string.Empty;
                 
+                
                 if (db.Ads.Count() != 0)
                 {
+                    int i = 0;
                     foreach (var ad in db.Ads)
                     {
-                        var id = isAdmin ? $"| ID:{ad.AdId}" : "";
-                        ids.Add(ad.Owner);
-                        s += $"💎 -{ad.Owner}- сервер - {ad.Server} {id} : {ad.Text} \n";
+                        i++;
+
+                        if (i < 10)
+                        {
+                            var id = $"| ID:{ad.AdId}";
+                            ids.Add(ad.Owner);
+                            s += $"💎 -{ad.Owner}- сервер - {ad.Server} {id} : {ad.Text} \n";
+                        }
+                        
                     }
 
                     var usrs = vkNet.Users.Get(ids);
                     
                     foreach (var usr in usrs)
                     { 
-                        stringText = s.Replace($"-{usr.Id}-", $"[id{usr.Id}|{usr.FirstName} {usr.LastName}]");
+                        stringText = s.Replace($"-{usr.Id}-", $"{usr.FirstName} {usr.LastName}");
                     }
                 }
                 else
                 {
                     stringText += "Объявлений нет.";
                 }
-
-
-
+                
 
                 if (msg.ChatId != msg.MessageVK.FromId)
                 {
@@ -69,13 +104,13 @@ namespace CCDPlanetHelper.Commands
                 else
                 {
                     var kb = new KeyboardBuilder(bot);
-                    kb.AddButton("1", "adsFilter", new List<string>() {"1"});
-                    kb.AddButton("2", "adsFilter", new List<string>() {"2"});
-                    kb.AddButton("3", "adsFilter", new List<string>() {"3"});
+                    kb.AddButton("1", "adsFilter", new List<string>() {"1", "0"});
+                    kb.AddButton("2", "adsFilter", new List<string>() {"2", "0"});
+                    kb.AddButton("3", "adsFilter", new List<string>() {"3", "0"});
                     kb.AddLine();
-                    kb.AddButton("4", "adsFilter", new List<string>() {"4"});
-                    kb.AddButton("5", "adsFilter", new List<string>() {"5"});
-                    kb.AddButton("6", "adsFilter", new List<string>() {"6"});
+                    kb.AddButton("4", "adsFilter", new List<string>() {"4", "0"});
+                    kb.AddButton("5", "adsFilter", new List<string>() {"5", "0"});
+                    kb.AddButton("6", "adsFilter", new List<string>() {"6", "0"});
                     kb.AddLine();
                     kb.AddButton("🔙 В меню объявлений", "adsmenu");
                     sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId, kb.Build());

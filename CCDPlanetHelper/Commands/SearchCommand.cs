@@ -22,11 +22,12 @@ namespace CCDPlanetHelper.Commands
 
         public static void Search(Message msg, IMessageSenderService sender, IBot bot)
         {
+            StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);
             var search = msg.Text;
 
             using (var db = new BotData())
             {
-                var car = db.Cars.SingleOrDefault(c => c.Model == search);
+                var car = db.Cars.SingleOrDefault(c => c.Model.ToLower() == search.ToLower());
 
                 if (car is null)
                 {

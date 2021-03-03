@@ -10,6 +10,9 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new string[0];
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
+            
+            StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);
+
 
             if (msg.ChatId != msg.MessageVK.FromId)
             {

@@ -66,6 +66,8 @@ namespace CCDPlanetHelper.Commands
                 long priceRub = 0;
                 long priceDoll = 0;
                 long priceEuro = 0;
+
+                string priceStr = "";
                 
                 var courseText = File.ReadAllText("CourceConfig.json");
                 var course = JsonConvert.DeserializeObject<CourseModel>(courseText);
@@ -75,16 +77,19 @@ namespace CCDPlanetHelper.Commands
                     priceRub = car.Price;
                     priceDoll = Convert.ToInt64(Convert.ToSingle(car.Price) / course.Dollar);
                     priceEuro = Convert.ToInt64(Convert.ToSingle(car.Price) / course.Euro);
+                    priceStr = $"{priceRub.ToString("N1").Split(",")[0]}₽";
                 }else if (car.Currency == 2) //долл
                 {
                     priceRub = Convert.ToInt64(course.Dollar * Convert.ToSingle(car.Price));
                     priceDoll = car.Price;
                     priceEuro = Convert.ToInt64(Convert.ToSingle(priceRub) / course.Euro);
+                    priceStr = $"{priceRub.ToString("N1").Split(",")[0]}₽ (${priceDoll.ToString("N1").Split(",")[0]})";
                 }else if (car.Currency == 3) //евро
                 {
                     priceRub = Convert.ToInt64(course.Euro * Convert.ToSingle(car.Price));
                     priceEuro = car.Price;
                     priceDoll = Convert.ToInt64(Convert.ToSingle(priceRub) / course.Dollar);
+                    priceStr = $"{priceRub.ToString("N1").Split(",")[0]}₽ ({priceEuro.ToString("N1").Split(",")[0]}€)";
                 }
 
                 var price1 = Convert.ToDecimal(priceRub);
@@ -92,12 +97,47 @@ namespace CCDPlanetHelper.Commands
                 var price2 = Convert.ToInt64(Decimal.Multiply(price1, decimal.Parse("0,84")));
                 var price3 = Convert.ToInt64(Decimal.Multiply(price1, decimal.Parse("0,7")));
 
+
+                var showroomStr = "";
+
+                if (car.Showroom == 1)
+                {
+                    showroomStr = "Европа";
+                }else if (car.Showroom == 2)
+                {
+                    showroomStr = "Япония";
+                }else if (car.Showroom == 3)
+                {
+                    showroomStr = "Toyota";
+                }else if (car.Showroom == 4)
+                {
+                    showroomStr = "Mercedes-Benz";
+                }else if (car.Showroom == 5)
+                {
+                    showroomStr = "BMW";
+                }else if (car.Showroom == 6)
+                {
+                    showroomStr = "Лада";
+                }else if (car.Showroom == 7)
+                {
+                    showroomStr = "Яхты";
+                }else if (car.Showroom == 8)
+                {
+                    showroomStr = "Вертолеты";
+                }else if (car.Showroom == 9)
+                {
+                    showroomStr = "Америка";
+                }else if (car.Showroom == 10)
+                {
+                    showroomStr = "Коммерческий";
+                }
+
                 var text = $"🚘 Модель: {car.Model}" +
-                           $"\n 💵 Цена с салона: {priceRub.ToString("N1")}₽ (${priceDoll.ToString("N1")} или {priceEuro.ToString("N1")}€)" +
-                           $"\n 💰 Цена с б/у: {price2.ToString("N1")}₽" +
-                           $"\n 💳 Слив с б/у: {price3.ToString("N1")}₽" +
-                           $"\n 💎 Цена за донат-валюту: {car.PriceDonate.ToString("N1")}" +
-                           $"\n 🚗 Автосалон: {car.Showroom}" +
+                           $"\n 💵 Цена с салона: {priceStr}" +
+                           $"\n 💰 Цена с б/у: {price2.ToString("N1").Split(",")[0]}₽" +
+                           $"\n 💳 Слив с б/у: {price3.ToString("N1").Split(",")[0]}₽" +
+                           $"\n 💎 Цена за донат-валюту: {car.PriceDonate.ToString("N1").Split(",")[0]}" +
+                           $"\n 🚗 Автосалон: {showroomStr}" +
                            $"\n ⚙ Максимальная скорость: {car.MaxSpeed}" +
                            $"{adminText}" +
                            $"\n " +

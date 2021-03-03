@@ -18,6 +18,7 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"цель", "цели"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
+            StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);
             bool isChat = msg.ChatId != msg.MessageVK.FromId.Value;
             using (var db = new BotData())
             {
