@@ -6,6 +6,12 @@ namespace CCDPlanetHelper.Models
     public class MailingModel
     {
         [JsonProperty("users")]
-        public List<long> Users { get; set; }
+        public List<ValuesMail> Users { get; set; }
+    }
+
+    public class ValuesMail
+    {
+        public long UserId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System.IO;
+using CCDPlanetHelper.Models;
 using Fooxboy.NucleusBot.Interfaces;
 using Fooxboy.NucleusBot.Models;
 using Newtonsoft.Json;
@@ -17,8 +18,15 @@ namespace CCDPlanetHelper.Commands
                 return;
             }
             
+            
+            
+            
             var usrs = JsonConvert.DeserializeObject<Models.MailingModel>(File.ReadAllText("MailingUsers.json"));
-            usrs.Users.Add(msg.MessageVK.FromId.Value);
+            usrs.Users.Add(new ValuesMail()
+            {
+                IsActive = true,
+                UserId = msg.MessageVK.FromId.Value
+            });
             File.WriteAllText("MailingUsers.json",JsonConvert.SerializeObject(usrs));
             sender.Text("✔ Вы подписались на рассылку", msg.ChatId);
         }

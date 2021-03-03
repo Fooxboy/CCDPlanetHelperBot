@@ -17,7 +17,7 @@ namespace CCDPlanetHelper.Commands
             var kb = new KeyboardBuilder(bot);
             
             var usrs = JsonConvert.DeserializeObject<Models.MailingModel>(File.ReadAllText("MailingUsers.json"));
-            if (usrs.Users.Any(u => u == msg.MessageVK.FromId))
+            if (usrs.Users.Any(u => u.UserId == msg.MessageVK.FromId))
             {
                 kb.AddButton("⛔ Описаться от рассылки", "unsubscribe", color: KeyboardButtonColor.Negative);
                 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using CCDPlanetHelper.Database;
+using CCDPlanetHelper.Models;
 using CCDPlanetHelper.Services;
 using Fooxboy.NucleusBot;
 using Fooxboy.NucleusBot.Interfaces;
@@ -19,6 +20,19 @@ namespace CCDPlanetHelper.Commands
         public string[] Aliases => new[] {"Объявления", "объявление"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
+            
+            //проверка и подписка на рассылку, если пользователь пользуется ботом первый раз.
+            var usrs1 = JsonConvert.DeserializeObject<MailingModel>(File.ReadAllText("MailingUsers.json"));
+            if (usrs1.Users.All(u => u.UserId != msg.MessageVK.FromId.Value))
+            {
+                usrs1.Users.Add(new ValuesMail()
+                {
+                    IsActive = true,
+                    UserId = msg.MessageVK.FromId.Value
+                });
+                
+                File.WriteAllText("MailingUsers.json", JsonConvert.SerializeObject(usrs1));
+            }
             
             if (msg.Payload is null)
             {
