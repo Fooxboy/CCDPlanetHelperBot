@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,11 +34,83 @@ namespace CCDPlanetHelper.Commands
                 
                 File.WriteAllText("MailingUsers.json", JsonConvert.SerializeObject(usrs1));
             }
+            var vkNet = new VkApi();
+            vkNet.Authorize(new ApiAuthParams()
+            {
+                AccessToken = "e7980081cccad8d0df1ce342355da76e6e0d8de37509d76fb08ff1f065823dc19e5f4ed7f4578314cc772"
+            });
+            
             
             if (msg.Payload is null)
             {
                 var msgWords = msg.Text.Split(" ");
 
+                if (msgWords.Length == 1)
+                {
+                    var ids1 = new List<long>();
+
+                    using (var db = new BotData())
+                    {
+                        string s = string.Empty;
+                        var stringText = string.Empty;
+                        
+                        
+                        if (db.Ads.Count() != 0)
+                        {
+                            int i = 0;
+                            foreach (var ad in db.Ads.OrderByDescending(a=> a.DateCreate))
+                            {
+                                i++;
+
+                                if (i < 10)
+                                {
+                                    var id = $"| ID:{ad.AdId}";
+                                    ids1.Add(ad.Owner);
+                                    stringText += $"💎 |{ad.Owner}| сервер - {ad.Server} {id} : {ad.Text} \n";
+                                }
+                                
+                            }
+
+                            var usrs = vkNet.Users.Get(ids1);
+                            
+                            foreach (var usr in usrs)
+                            { 
+                                stringText = stringText.Replace($"|{usr.Id}|", $"{usr.FirstName} {usr.LastName}");
+                            }
+                        }
+                        else
+                        {
+                            stringText += "Объявлений нет.";
+                        }
+                        
+
+                        if (msg.ChatId != msg.MessageVK.FromId)
+                        {
+                            sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId);
+                            return;
+
+                        }
+                        else
+                        {
+                            var kb = new KeyboardBuilder(bot);
+                            kb.AddButton("1", "adsFilter", new List<string>() {"1", "0"});
+                            kb.AddButton("2", "adsFilter", new List<string>() {"2", "0"});
+                            kb.AddButton("3", "adsFilter", new List<string>() {"3", "0"});
+                            kb.AddLine();
+                            kb.AddButton("4", "adsFilter", new List<string>() {"4", "0"});
+                            kb.AddButton("5", "adsFilter", new List<string>() {"5", "0"});
+                            kb.AddButton("6", "adsFilter", new List<string>() {"6", "0"});
+                            kb.AddLine();
+                            kb.AddButton("🔙 В меню объявлений", "adsmenu");
+                            sender.Text($"🎫 Объявления: \n {stringText}", msg.ChatId, kb.Build());
+                            return;
+
+                        }
+
+                    }
+                }
+                
+                
                 try
                 {
                     var serverStr = msgWords[1];
@@ -54,8 +127,9 @@ namespace CCDPlanetHelper.Commands
                     new AdsFilterCommand().Execute(msg, sender, bot);
                     return;
                 }
-                catch
+                catch(Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     sender.Text("⛔ Вы указали неверное данные. Например: объявления <номер сервера> <номер страницы> или объявление id <Id объявления>", msg.ChatId);
                 }
                 
@@ -67,11 +141,7 @@ namespace CCDPlanetHelper.Commands
 
             bool isAdmin = admins.Users.Any(u => u == msg.MessageVK.FromId);
 
-            var vkNet = new VkApi();
-            vkNet.Authorize(new ApiAuthParams()
-            {
-                AccessToken = "e7980081cccad8d0df1ce342355da76e6e0d8de37509d76fb08ff1f065823dc19e5f4ed7f4578314cc772"
-            });
+           
 
             var ids = new List<long>();
             
@@ -84,7 +154,7 @@ namespace CCDPlanetHelper.Commands
                 if (db.Ads.Count() != 0)
                 {
                     int i = 0;
-                    foreach (var ad in db.Ads)
+                    foreach (var ad in db.Ads.OrderByDescending(a=> a.DateCreate))
                     {
                         i++;
 
@@ -92,7 +162,7 @@ namespace CCDPlanetHelper.Commands
                         {
                             var id = $"| ID:{ad.AdId}";
                             ids.Add(ad.Owner);
-                            s += $"💎 -{ad.Owner}- сервер - {ad.Server} {id} : {ad.Text} \n";
+                            stringText += $"💎 |{ad.Owner}| сервер - {ad.Server} {id} : {ad.Text} \n";
                         }
                         
                     }
@@ -101,7 +171,7 @@ namespace CCDPlanetHelper.Commands
                     
                     foreach (var usr in usrs)
                     { 
-                        stringText = s.Replace($"-{usr.Id}-", $"{usr.FirstName} {usr.LastName}");
+                        stringText = stringText.Replace($"|{usr.Id}|", $"{usr.FirstName} {usr.LastName}");
                     }
                 }
                 else

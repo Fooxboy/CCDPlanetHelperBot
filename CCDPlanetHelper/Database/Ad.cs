@@ -10,5 +10,6 @@ namespace CCDPlanetHelper.Database
         public string Text { get; set; }
         public long DateCreate { get; set; }
         public int Server { get; set; }
+        public long Time { get; set; }
     }
 }

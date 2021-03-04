@@ -57,6 +57,12 @@ namespace CCDPlanetHelper.Commands
                 sender.Text("⛔ Вы неверно указали дату. Пример: \n Напомни 25.1 поздравить Никиту с Днем рождения", msg.ChatId);
                 return;
             }
+
+            if (day == DateTime.Now.Day && mouth == DateTime.Now.Month)
+            {
+                sender.Text("⛔ Вы не можете указать текущую дату", msg.ChatId);
+                return;
+            }
            
 
             if (day > 31|| day < 1)
@@ -100,13 +106,29 @@ namespace CCDPlanetHelper.Commands
 
                 db.SaveChanges();
             }
-            sender.Text($"✔ Ваше упоминание установлено на {day}.{mouth}", msg.ChatId);
+
+
+            var mouthStr = string.Empty;
+
+            if (mouth == 1) mouthStr = "Января";
+            else if (mouth == 2) mouthStr = "Февраля";
+            else if (mouth == 3) mouthStr = "Марта";
+            else if (mouth == 4) mouthStr = "Апреля";
+            else if (mouth == 5) mouthStr = "Мая";
+            else if (mouth == 6) mouthStr = "Июня";
+            else if (mouth == 7) mouthStr = "Июля";
+            else if (mouth == 8) mouthStr = "Августа";
+            else if (mouth == 9) mouthStr = "Сентября";
+            else if (mouth == 10) mouthStr = "Октября";
+            else if (mouth == 11) mouthStr = "Ноября";
+            else if (mouth == 12) mouthStr = "Декабря";
+
+
+            sender.Text($"✔ Ваше упоминание установлено на {day} {mouthStr}", msg.ChatId);
         }
 
         public void Init(IBot bot, ILoggerService logger)
         {
-            
-            
             var reminderSerivce = new ReminderService();
 
             var thread = new Thread(() =>

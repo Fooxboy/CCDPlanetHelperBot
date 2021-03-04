@@ -41,8 +41,19 @@ namespace CCDPlanetHelper.Commands
             
             var kb = new KeyboardBuilder(bot);
             kb.AddButton("🔙 Назад", "searchmenu");
-            
-            StaticContent.UsersCommand.Add(msg.ChatId, "search");
+
+            try
+            {
+                StaticContent.UsersCommand.Add(msg.MessageVK.FromId.Value, "search");
+
+            }
+            catch
+            {
+                StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);
+
+                StaticContent.UsersCommand.Add(msg.MessageVK.FromId.Value, "search");
+
+            }
             sender.Text("🔍 Напишите название автомобиля", msg.ChatId, kb.Build());
         }
 
@@ -80,7 +91,18 @@ namespace CCDPlanetHelper.Commands
                     }
                     else
                     {
-                        StaticContent.UsersCommand.Add(msg.ChatId, "search");
+                        try
+                        {
+                            StaticContent.UsersCommand.Add(msg.MessageVK.FromId.Value, "search");
+
+                        }
+                        catch
+                        {
+                            StaticContent.UsersCommand.Remove(msg.MessageVK.FromId.Value);
+
+                            StaticContent.UsersCommand.Add(msg.MessageVK.FromId.Value, "search");
+
+                        }
                         var kb = new KeyboardBuilder(bot);
                         kb.AddButton("🔙 Назад", "searchmenu");
                         sender.Text("🔍 Автомобиль не найден. Попробуйте ещё раз", msg.ChatId, kb.Build());
@@ -96,11 +118,21 @@ namespace CCDPlanetHelper.Commands
                 var kb1 = new KeyboardBuilder(bot);
                 kb1.AddButton("🚗 Открыть информацию", "carinfo", new List<string>() {car.CarId.ToString()});
                 kb1.AddLine();
-                kb1.AddButton("🔙 Назад", "searchmenu");
-                kb1.AddLine();
                 kb1.AddButton("🔍 Найти другой", "search");
+                kb1.AddLine();
+                kb1.AddButton("🔙 Назад", "searchmenu");
+
+
+                if (msg.ChatId == msg.MessageVK.FromId)
+                {
+                    sender.Text($"🚗 {car.Model} найден! Нажмите на кнопку ниже, чтобы открыть информацию об авто.", msg.ChatId, kb1.Build());
+                }
+                else
+                {
+                    sender.Text($"✔ Автомобиль найден. Напишите авто {car.CarId} чтобы получить информацию об автомобиле", msg.ChatId);
+                }
                 
-                sender.Text($"🚗 {car.Model} найден! Нажмите на кнопку ниже, чтобы открыть информацию об авто.", msg.ChatId, kb1.Build());
+                
 
             }
         }

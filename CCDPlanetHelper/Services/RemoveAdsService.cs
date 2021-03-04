@@ -21,9 +21,9 @@ namespace CCDPlanetHelper.Services
                 {
                     foreach (var ad in db.Ads)
                     {
-                        ad.DateCreate = ad.DateCreate - 1;
+                        ad.Time = ad.Time - 1;
                         
-                        if (ad.DateCreate == 0)
+                        if (ad.Time == 0)
                         {
                             db.Ads.Remove(ad);
                         }

@@ -30,8 +30,19 @@ namespace CCDPlanetHelper.Commands
                 
                 File.WriteAllText("MailingUsers.json", JsonConvert.SerializeObject(usrs1));
             }
-            
-            StaticContent.UsersCommand.Add(msg.ChatId, "target");
+
+            try
+            {
+                StaticContent.UsersCommand.Add(msg.ChatId, "target");
+
+            }
+            catch
+            {
+                StaticContent.UsersCommand.Remove(msg.ChatId);
+
+                StaticContent.UsersCommand.Add(msg.ChatId, "target");
+
+            }
             sender.Text("❓ Укажите новую сумму:", msg.ChatId);
         }
 
@@ -49,7 +60,18 @@ namespace CCDPlanetHelper.Commands
                 }
                 catch (Exception e)
                 {
-                    StaticContent.UsersCommand.Add(msg.ChatId, "target");
+                    try
+                    {
+                        StaticContent.UsersCommand.Add(msg.ChatId, "target");
+
+                    }
+                    catch
+                    {
+                        StaticContent.UsersCommand.Remove(msg.ChatId);
+
+                        StaticContent.UsersCommand.Add(msg.ChatId, "target");
+
+                    }
                     var kb = new KeyboardBuilder(bot);
                     kb.AddButton("🛑 Отмена", "target", color: KeyboardButtonColor.Negative);
                     sender.Text("⛔ Вы указали неверное число, попробуйте ещё раз", msg.ChatId, kb.Build());

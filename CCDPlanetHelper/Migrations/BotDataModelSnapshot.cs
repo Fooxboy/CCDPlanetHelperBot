@@ -33,6 +33,9 @@ namespace CCDPlanetHelper.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("Time")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("AdId");
 
                     b.ToTable("Ads");

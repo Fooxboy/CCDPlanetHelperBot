@@ -91,8 +91,18 @@ namespace CCDPlanetHelper.Commands.Admins
                 db.SaveChanges();
                 StaticContent.AddCarInfo.Add(msg.ChatId, id);
             }
-            
-            StaticContent.UsersCommand.Add(msg.ChatId, "addcarinfo");
+
+            try
+            {
+                StaticContent.UsersCommand.Add(msg.ChatId, "addcarinfo");
+
+            }
+            catch
+            {
+                StaticContent.UsersCommand.Remove(msg.ChatId);
+                StaticContent.UsersCommand.Add(msg.ChatId, "addcarinfo");
+
+            }
             sender.Text("✔ Машина зарезерирована. Теперь укажите цену, цену за донат валюту, максимальную скорость и номер автосалона. В таком формате: \n" +
                         "<Цена с салона>-<Валюта> <Цена за донат валюту> <Максимальная скорость> <автосалон> \n Например: 100-р 5 200 1", msg.ChatId);
             

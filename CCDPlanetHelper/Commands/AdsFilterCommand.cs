@@ -36,7 +36,7 @@ namespace CCDPlanetHelper.Commands
 
             bool isAdmin = admins.Users.Any(u => u == msg.MessageVK.FromId);
 
-            var argument = msg.Payload.Arguments[0];
+            
 
             int offset, server = 0;
             
@@ -47,6 +47,7 @@ namespace CCDPlanetHelper.Commands
             }
             else
             {
+                var argument = msg.Payload.Arguments[0];
                  offset = int.Parse(msg.Payload.Arguments[1]);
                  server = int.Parse(argument);
             }
@@ -76,10 +77,10 @@ namespace CCDPlanetHelper.Commands
                     {
                         try
                         {
-                            var ad = ads.ToList()[i];
+                            var ad = ads.OrderByDescending(a=> a.DateCreate).ToList()[i];
                             var id = $"| ID:{ad.AdId}";
                             ids.Add(ad.Owner);
-                            s += $"💎[{i}] -{ad.Owner}- сервер - {ad.Server} {id} : {ad.Text} \n";
+                            stringText += $"💎[{i}] -{ad.Owner}- сервер - {ad.Server} {id} : {ad.Text} \n";
                             kb.AddButton(i.ToString(), "showad", new List<string>() {ad.AdId.ToString()});
 
                             if (counter == 4)
@@ -100,16 +101,16 @@ namespace CCDPlanetHelper.Commands
                     
                     if (offset > 0)
                     {
-                        kb.AddButton("⏮ Назад", "adsFilter", new List<string>() {argument, $"{offset-10}"});
+                        kb.AddButton("⏮ Назад", "adsFilter", new List<string>() {server.ToString(), $"{offset-10}"});
                     }
-                   if(isAddNextCommand) kb.AddButton("⏭ Вперед", "adsFilter", new List<string>() {argument, $"{offset + 10}"});
+                   if(isAddNextCommand) kb.AddButton("⏭ Вперед", "adsFilter", new List<string>() {server.ToString(), $"{offset + 10}"});
                     
 
                     var usrs = vkNet.Users.Get(ids);
                     
                     foreach (var usr in usrs)
                     { 
-                        stringText = s.Replace($"-{usr.Id}-", $"{usr.FirstName} {usr.LastName}");
+                        stringText = stringText.Replace($"-{usr.Id}-", $"{usr.FirstName} {usr.LastName}");
                     }
                 }
                 else

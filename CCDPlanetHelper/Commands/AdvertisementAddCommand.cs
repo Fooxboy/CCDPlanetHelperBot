@@ -68,7 +68,17 @@ namespace CCDPlanetHelper.Commands
 
         public static void AddPartOne(long userId, long chatId, int server, IMessageSenderService sender)
         {
-            StaticContent.UsersCommand.Add(userId, "addAdsPartTwo");
+            try
+            {
+                StaticContent.UsersCommand.Add(userId, "addAdsPartTwo");
+
+            }
+            catch
+            {
+                StaticContent.UsersCommand.Remove(userId);
+                StaticContent.UsersCommand.Add(userId, "addAdsPartTwo");
+
+            }
             StaticContent.SelectUserServer.Add(userId, server);
             sender.Text("Напишите текст объявления. Не больше 300х символов.", chatId);
         }
@@ -91,8 +101,9 @@ namespace CCDPlanetHelper.Commands
                 {
                     AdId =  new Random().Next(0, 99999999),
                     Owner = userId,
-                    DateCreate =  3,
+                    DateCreate = Convert.ToInt64(DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds),
                     Server =  server.Value,
+                    Time = 3,
                     Text = text
                 });
 

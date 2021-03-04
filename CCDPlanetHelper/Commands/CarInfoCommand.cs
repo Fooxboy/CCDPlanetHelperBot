@@ -15,7 +15,7 @@ namespace CCDPlanetHelper.Commands
     public class CarInfoCommand:INucleusCommand
     {
         public string Command => "carinfo";
-        public string[] Aliases => new string[0];
+        public string[] Aliases => new []{"авто"};
         public void Execute(Message msg, IMessageSenderService sender, IBot bot)
         {
             //проверка и подписка на рассылку, если пользователь пользуется ботом первый раз.
@@ -30,8 +30,17 @@ namespace CCDPlanetHelper.Commands
                 
                 File.WriteAllText("MailingUsers.json", JsonConvert.SerializeObject(usrs1));
             }
+
+            long carid = 0;
+            if (msg.Payload is null)
+            {
+                carid = long.Parse(msg.Text.Split(" ")[1]);
+            }
+            else
+            {
+                carid = long.Parse(msg.Payload.Arguments[0]);
+            }
             
-            var carid = long.Parse(msg.Payload.Arguments[0]);
             
             var file = File.ReadAllText("AdminsConfig.json");
             var admins = JsonConvert.DeserializeObject<Models.AdminsModels>(file);
@@ -73,8 +82,9 @@ namespace CCDPlanetHelper.Commands
 
                 foreach (var pack in tuningsT)
                 {
-                    
-                    tuningText += $"🔶 {pack.Name} - {pack.Price.ToString("N1").Split(",")[0]} ₽ \n";
+                    var packId = string.Empty;
+                    if (isAdmin) packId = $"({pack.PackId})";
+                    tuningText += $"🔶 {pack.Name} - {pack.Price.ToString("N1").Split(",")[0]} ₽ {packId}\n";
                 }
 
                 long priceRub = 0;
@@ -163,7 +173,16 @@ namespace CCDPlanetHelper.Commands
                 kb.AddLine();
                 kb.AddButton("🔙 В меню", "menu");
                 kb.SetOneTime();
-                sender.TextImage(text, msg.ChatId, car.Image, kb.Build());
+
+                if (msg.ChatId != msg.MessageVK.FromId)
+                {
+                    sender.TextImage(text, msg.ChatId, car.Image);
+
+                }
+                else
+                {
+                    sender.TextImage(text, msg.ChatId, car.Image, kb.Build());
+                }
             }
             
             
