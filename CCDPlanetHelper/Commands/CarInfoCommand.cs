@@ -67,13 +67,14 @@ namespace CCDPlanetHelper.Commands
                 foreach (var id in ids)
                 {
                     var t = db.TuningPacks.SingleOrDefault(t => t.PackId == id);
-                    tuningsT.Add(t);
+                    if(t != null) tuningsT.Add(t);
                 }
 
 
                 foreach (var pack in tuningsT)
                 {
-                    tuningText += $"🔶 {pack.Name} - {pack.Price.ToString("N1")} ₽ \n";
+                    
+                    tuningText += $"🔶 {pack.Name} - {pack.Price.ToString("N1").Split(",")[0]} ₽ \n";
                 }
 
                 long priceRub = 0;
@@ -82,7 +83,7 @@ namespace CCDPlanetHelper.Commands
 
                 string priceStr = "";
                 
-                var courseText = File.ReadAllText("CourseConfig.json");
+                var courseText = File.ReadAllText("CourceConfig.json");
                 var course = JsonConvert.DeserializeObject<CourseModel>(courseText);
 
                 if (car.Currency == 1) //руб
