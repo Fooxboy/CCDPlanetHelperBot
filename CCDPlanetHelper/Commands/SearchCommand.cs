@@ -83,7 +83,7 @@ namespace CCDPlanetHelper.Commands
 
                     var tagsModel = JsonConvert.DeserializeObject<TagsCarModel>(File.ReadAllText("Tags.json"));
 
-                    var tagModel = tagsModel.Tags.SingleOrDefault(t => t.Tag == search);
+                    var tagModel = tagsModel.Tags.SingleOrDefault(t => t.Tag.ToLower() == search.ToLower());
 
                     if (tagModel != null)
                     {
@@ -105,6 +105,12 @@ namespace CCDPlanetHelper.Commands
                         }
                         var kb = new KeyboardBuilder(bot);
                         kb.AddButton("🔙 Назад", "searchmenu");
+
+                        if (msg.ChatId != msg.MessageVK.FromId)
+                        {
+                            sender.Text("🔍 Автомобиль не найден. Попробуйте ещё раз", msg.ChatId);
+                            return;
+                        }
                         sender.Text("🔍 Автомобиль не найден. Попробуйте ещё раз", msg.ChatId, kb.Build());
                         return;
                     }

@@ -41,7 +41,7 @@ namespace CCDPlanetHelper
                 new AddTuningCommand(), new TuningSetCommand(), new AddTargetCommand(), 
                 new TargetCommand(), new TargetEditCommand(), new SearchCommand(),
                 new ShowAdCommand(), new AddTagCommand(), new RemoveTagCommand(), 
-                new RemoveTuningCommand());
+                new RemoveTuningCommand(), new RemindersCommand(), new RemoveReminderCommand());
             
 
             var logger = bot.GetLogger();
